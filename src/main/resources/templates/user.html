@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title th:text="${username}"></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link rel="stylesheet" href="/custom.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/custom.js"></script>
+</head>
+
+<body>
+
+<div th:replace="fragments/navbar"></div>
+<div class="container">
+    <div class="row">
+        <h2><span th:text="${user.firstName}"></span> <span th:text="${user.lastName}"></span></h2>
+        <h5>@<span th:text="${username}"></span> <button style="float" type="Submit" class="btn btn-sm btn-success">Follow</button> </h5>
+    </div>
+
+    <div class="list-group" th:each="tweet:${tweetList}">
+        <div class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <a class="username" th:href="@{/users/} + ${tweet.user.username}">@<span
+                        th:text="${tweet.user.username}"></span></a><small> <span
+                    th:text="${#dates.format(tweet.createdAt, 'M/d/yy')}"></span></small>
+            </div>
+            <p class="mb-1" th:utext="${tweet.message}"></p>
+        </div>
+        <div th:if="${#lists.isEmpty(tweetList)}">
+            <h3>This user has not made a tweet yet</h3>
+        </div>
+    </div>
+</div>
